@@ -28,7 +28,7 @@ loop {
                 Some(Ok(msg)) => {
                     if let Some(text) = msg.as_text() {
                         println!("From client {addr:?} {text:?}");
-                        bcast_tx.send(text.into())?;
+                        bcast_tx.send(format!("{:?}: {}", addr, text))?;
                     }
                 }
                 Some(Err(err)) => return Err(err.into()),
@@ -60,10 +60,4 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
             handle_connection(addr, ws_stream, bcast_tx).await
         });
     }
-}
- 3 changes: 3 additions & 0 deletions3  
-src/main.rs
-@@ -0,0 +1,3 @@
-fn main() {
-    println!("Hello, world!");
 }
